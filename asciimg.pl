@@ -174,15 +174,15 @@ __END__
 
 =head1 NAME
 
-ascitty - Print images on the terminal using ascii art
+asciimg - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascitty [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-v vertical stretching] [image]...
+asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-v vertical stretching] [image]...
 
 =head1 DESCRIPTION
 
-B<ascitty> takes any image filename(s) as an input and will output text via stdout that looks similar to the image.
+B<asciimg> takes any image filename(s) as an input and will output text via stdout that looks similar to the image.
 It can also output colored text (8 colors by default)
 
 If no filenames are given it will take the filenames from stdout.
@@ -191,15 +191,15 @@ If no filenames are given it will take the filenames from stdout.
 
 =over 8
 
-=item ascitty -c image1.png
+=item asciimg -c image1.png
 
 This will print image1.png in color.
 
-=item ascitty -c image1.png *.jpg
+=item asciimg -c image1.png *.jpg
 
 This will print image1.png and all jpg files in color.
 
-=item echo *.jpg | ascitty -c -i
+=item echo *.jpg | asciimg -c -i
 
 Print all jpg files in color, with the background inverted (print on white).
 
@@ -247,6 +247,6 @@ Display the man page.
 
 =head1 HISTORY
 
-B<ascitty> was released on 15 Sep 2015
+B<asciimg> was released on 15 Sep 2015
 
 =cut
