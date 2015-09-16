@@ -4,8 +4,16 @@ Command line tool to display images as ascii art on the terminal
 ![Example](https://raw.githubusercontent.com/aurbano/ascii-tty/master/demos/demo.gif)
 
 ## Usage
-```sh
-$ ./ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
+```bash
+$ ./ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
+```
+
+### Examples
+
+```bash
+$ ascii-tty -c image.png    # print image.png in color
+$ ascii-tty -c *.png        # print all png files in color
+$ echo demos/* | ascii-tty  # print all files in the demos folder in black and white
 ```
 
 ### Options
