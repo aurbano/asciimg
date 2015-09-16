@@ -15,12 +15,14 @@ my $resolution = $wchar - 1;
 my $vstretch = 0.5;
 my $threshold = 30;
 my $color = 0;
+my $invert = 0;
 my $average = 0;
 my $help = 0;
 my $man = 0;
 
 GetOptions (
   "color" => \$color,
+  "invert" => \$invert,
   "resolution=f" => \$resolution,
   "vstretch=f" => \$vstretch,
   "threshold=f" => \$threshold,
@@ -52,7 +54,7 @@ my $resx = @size[0]/$resolution;
 my $resy = $resx/$vstretch;
 
 # Filling chars
-my @chars = (" ", ".", ",", "-", "+", "1", "b", "#", "X", "W", "W");
+my @chars =  (" ", ".", ":", "~", "+", "|", "f", "#", "X", "W", "W");
 
 # Build array of average values
 for(my $y=0; $y <= @size[1]; $y = $y+$resy){
@@ -79,7 +81,7 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
       $avgRGB[1] /= $counter;
       $avgRGB[2] /= $counter;
     }else{
-       #Simple way of getting the average, without sampling
+      #Simple way of getting the average, without sampling
       my $index = $im->getPixel(int($x),int($y));
       if($index >= 1<<24){    
         # Transparent pixel
@@ -92,11 +94,16 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
       $avgRGB[2] = $b;
     }
     my $avg = ($avgRGB[0]+$avgRGB[1]+$avgRGB[2])/3;
+    if($invert){
+      $avg = 255 - $avg;
+    }
     # Get the average value and normalize it to 0-1
     my $norm = 20*$avg/255;
     # Decide which color (if any) to print
-    print color 'on_black';
-      if($color > 0){
+    unless($invert){
+      print color 'on_black';
+    }
+    if($color > 0){
       my $closest = "white";
       my $closestDiff = 255*3 + $threshold;
       my %colorList = (
@@ -118,7 +125,11 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
           $closest = $color;
         }
       }
-      print color $closest;
+      if($invert){
+        print color "on_".$closest;
+      }else{
+        print color $closest;
+      }
     }
     if($norm > 10){
       print color 'bold';
@@ -132,12 +143,6 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
   print "\n";
 }
 
-# Sampling is very slow at the moment, so disabled
-# The following code does area sampling, generating
-# more detailed images
-    
-
-
 __END__
 
 =head1 NAME
@@ -146,7 +151,7 @@ ascii-tty - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascii-tty [-c] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
+ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
 
 =head1 DESCRIPTION
 
@@ -157,6 +162,10 @@ It can also output colored text (8 colors by default)
 =head1 OPTIONS
 
 =over 8
+
+=item B<-i>
+
+Set the color in the background instead of the foreground, good for images that have a white background or bright colors.
 
 =item B<-c>
 
