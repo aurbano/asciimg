@@ -41,7 +41,12 @@ cpan> install Term::ANSIColor
 Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
 Then install `Term::ANSIColor` the same way as Linux.
 
-Ready!
+## Roadmap
+* Add an option to get colored output
+* Add option to use full square characters/custom characters
+* Package for distribution
+* brew installer?
+* Rewrite in an easier language (nodejs?)
 
 ## Meta
 Developed by [Alejandro U. Alvarez](http://urbanoalvarez.es) - &copy; 2015
