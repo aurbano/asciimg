@@ -1,19 +1,19 @@
-# ascii-tty
+# ascitty
 Command line tool to display images as ascii art on the terminal
 
 ![Example](https://raw.githubusercontent.com/aurbano/ascii-tty/master/demos/demo.gif)
 
 ## Usage
 ```bash
-$ ./ascii-tty [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
+$ ./ascitty [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
 ```
 
 ### Examples
 
 ```bash
-$ ascii-tty -c image.png # print image.png in color
-$ ascii-tty -c *.png # print all png files in color
-$ echo demos/* | ascii-tty # print all files in the demos folder in black and white
+$ ascitty -c image.png # print image.png in color
+$ ascitty -c *.png # print all png files in color
+$ echo demos/* | ascitty # print all files in the demos folder in black and white
 ```
 
 ### Options
@@ -30,7 +30,7 @@ $ echo demos/* | ascii-tty # print all files in the demos folder in black and wh
 
 
 ## Installation
-1. [Download](https://github.com/aurbano/ascii-tty/archive/master.zip)/Clone repository
+1. [Download](https://github.com/aurbano/ascitty/archive/master.zip)/Clone repository
 2. `ascii-tty` is built with Perl at the moment, so you'll need to [install it](http://learn.perl.org/installing/) if your OS doesn't have it already.
 3. Dependencies:
 
