@@ -1,5 +1,5 @@
-# ascitty
-> /as-kee tee tee waɪ/
+# asciimg
+> /as-keem-ɪdʒ/ or "askimage"
 >
 > Command line tool to display images as ascii art on the terminal
 
@@ -7,15 +7,15 @@
 
 ## Usage
 ```bash
-$ ./ascitty [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
+$ ./asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
 ```
 
 ### Examples
 
 ```bash
-$ ascitty -c image.png # print image.png in color
-$ ascitty -c *.png # print all png files in color
-$ echo demos/* | ascitty # print all files in the demos folder in black and white
+$ asciimg -c image.png # print image.png in color
+$ asciimg -c *.png # print all png files in color
+$ echo demos/* | asciimg # print all files in the demos folder in black and white
 ```
 
 ### Options
@@ -32,8 +32,8 @@ $ echo demos/* | ascitty # print all files in the demos folder in black and whit
 
 
 ## Installation
-1. [Download](https://github.com/aurbano/ascitty/archive/master.zip)/Clone repository
-2. `ascii-tty` is built with Perl at the moment, so you'll need to [install it](http://learn.perl.org/installing/) if your OS doesn't have it already.
+1. [Download](https://github.com/aurbano/asciimg/archive/master.zip)/Clone repository
+2. `asciimg` is built with Perl at the moment, so you'll need to [install it](http://learn.perl.org/installing/) if your OS doesn't have it already.
 3. Dependencies:
 
 GD Library
