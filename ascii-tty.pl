@@ -60,8 +60,6 @@ foreach my $image(@images){
 sub printImage(){
   my $imgsrc = $_[0];
 
-  print $imgsrc;
-
   $im = GD::Image->new($imgsrc)
     or die "ascii-ttl.pl: can't find '",$imgsrc,"'\n";
 
@@ -119,7 +117,7 @@ sub printImage(){
       # Get the average value and normalize it to 0-1
       my $norm = 20*$avg/255;
       # Decide which color (if any) to print
-      unless($invert){
+      if($color > 0 && $invert < 1){
         print color 'on_black';
       }
       if($color > 0){
@@ -150,14 +148,16 @@ sub printImage(){
           print color $closest;
         }
       }
-      if($norm > 10){
+      if($color > 0 && $norm > 10){
         print color 'bold';
         print @chars[int($norm/2)];
         print color 'reset';
       }else{
         print @chars[int($norm/2)];
       }
-      print color 'reset';
+      if($color > 0){
+        print color 'reset';
+      }
     }
     print "\n";
   }
