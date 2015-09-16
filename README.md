@@ -5,13 +5,14 @@ Command line tool to display images as ascii art on the terminal
 
 ## Usage
 ```sh
-$ ./ascii-tty [-c] [-r resolution] [-t threshold] [-s vertical stretching] image
+$ ./ascii-tty [-c] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
 ```
 
 ### Options
 
 | Option | Default | Description |
 |---|---|---|
+| **-a** | `false` |  Enable averaging for the image sampling algorithm. Averaging should produce closer representations of the input image, but will slow down the process. |
 | **-c** | `false` | Use colored output, enable colors simply by adding the flag. |
 | **-t** | `30` | Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients. |
 | **-r** | `width` |  The resolution is the number of columns used when printing the image. It will default to the current size of the terminal. |
