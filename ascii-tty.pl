@@ -146,7 +146,7 @@ ascii-tty - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascii-tty [-c] [-r resolution] [-t threshold] [-s vertical stretching] [-a average] image
+ascii-tty [-c] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
 
 =head1 DESCRIPTION
 
