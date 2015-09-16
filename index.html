@@ -29,7 +29,59 @@
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight highlight-source-shell"><pre>$ ./ascii-ttl path/to/img.png [resolution 0-1] [vertical stretching]</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ ./ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] [image]...</pre></div>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h3>
+
+<div class="highlight highlight-source-shell"><pre>$ ascii-tty -c image.png    <span class="pl-c"># print image.png in color</span>
+$ ascii-tty -c <span class="pl-k">*</span>.png        <span class="pl-c"># print all png files in color</span>
+$ <span class="pl-c1">echo</span> demos/<span class="pl-k">*</span> <span class="pl-k">|</span> ascii-tty  <span class="pl-c"># print all files in the demos folder in black and white</span></pre></div>
+
+<h3>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h3>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>-i</strong></td>
+<td><code>false</code></td>
+<td>Set the color in the background instead of the foreground, good for images that have a white background or bright colors.</td>
+</tr>
+<tr>
+<td><strong>-a</strong></td>
+<td><code>false</code></td>
+<td>Enable averaging for the image sampling algorithm. Averaging should produce closer representations of the input image, but will slow down the process.</td>
+</tr>
+<tr>
+<td><strong>-c</strong></td>
+<td><code>false</code></td>
+<td>Use colored output, enable colors simply by adding the flag.</td>
+</tr>
+<tr>
+<td><strong>-t</strong></td>
+<td><code>30</code></td>
+<td>Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients.</td>
+</tr>
+<tr>
+<td><strong>-r</strong></td>
+<td><code>width</code></td>
+<td>The resolution is the number of columns used when printing the image. It will default to the current size of the terminal.</td>
+</tr>
+<tr>
+<td><strong>-s</strong></td>
+<td><code>0.5</code></td>
+<td>Vertical stretching factor for the image, or aspect ratio. It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it.</td>
+</tr>
+</tbody>
+</table>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -64,8 +116,10 @@ $ sudo yum -y install perl-GD</pre></div>
 
 <div class="highlight highlight-source-shell"><pre>$ sudo cpan
 cpan<span class="pl-k">&gt;</span> install GD::Image
-<span class="pl-c"># ... installing</span>
-cpan<span class="pl-k">&gt;</span> install Term::ANSIColor</pre></div>
+cpan<span class="pl-k">&gt;</span> install Term::ANSIColor
+cpan<span class="pl-k">&gt;</span> install Term::ReadKey
+cpan<span class="pl-k">&gt;</span> install Pod::Usage
+cpan<span class="pl-k">&gt;</span> install Getopt::Long</pre></div>
 
 <h4>
 <a id="mac-osx" class="anchor" href="#mac-osx" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mac OSX</h4>
@@ -73,7 +127,16 @@ cpan<span class="pl-k">&gt;</span> install Term::ANSIColor</pre></div>
 <p>Install GD from here: <a href="http://wangqinhu.com/install-gd-on-mavericks/">http://wangqinhu.com/install-gd-on-mavericks/</a>
 Then install <code>Term::ANSIColor</code> the same way as Linux.</p>
 
-<p>Ready!</p>
+<h2>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h2>
+
+<ul>
+<li><del>Add an option to get colored output</del></li>
+<li>Add option to use full square characters/custom characters</li>
+<li>Package for distribution</li>
+<li>brew installer?</li>
+<li>Rewrite in an easier language (nodejs?)</li>
+</ul>
 
 <h2>
 <a id="meta" class="anchor" href="#meta" aria-hidden="true"><span class="octicon octicon-link"></span></a>Meta</h2>
