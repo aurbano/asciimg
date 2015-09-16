@@ -15,6 +15,7 @@ my $resolution = $wchar - 1;
 my $vstretch = 0.5;
 my $threshold = 30;
 my $color = 0;
+my $average = 0;
 my $help = 0;
 my $man = 0;
 
@@ -23,6 +24,7 @@ GetOptions (
   "resolution=f" => \$resolution,
   "vstretch=f" => \$vstretch,
   "threshold=f" => \$threshold,
+  "average" => \$average,
   "help|?" => \$help,
   "man" => \$man
 ) or pod2usage(2);
@@ -55,15 +57,41 @@ my @chars = (" ", ".", ",", "-", "+", "1", "b", "#", "X", "W", "W");
 # Build array of average values
 for(my $y=0; $y <= @size[1]; $y = $y+$resy){
   for(my $x=0; $x <= @size[0]; $x = $x+$resx){
-    #Simple way of getting the average, without sampling
-    my $index = $im->getPixel(int($x),int($y));
-    if($index >= 1<<24){    
-      # Transparent pixel
-      print " ";
-      next;
+    my @avgRGB = (0,0,0);
+    if($average > 0){
+      # sample area averaging enabled
+      my $counter = 0;
+      for my $sampley (0 .. $resy){
+        for my $samplex (0 .. $resx){
+          my $pixel = $im->getPixel($x + $samplex, $y + $sampley);
+          if($pixel >= 1<<24){
+            $counter++;
+            next;
+          }
+          ($r,$g,$b) = $im->rgb($pixel);
+          $avgRGB[0] += $r;
+          $avgRGB[1] += $g;
+          $avgRGB[2] += $b;
+          $counter++;
+        }
+      }
+      $avgRGB[0] /= $counter;
+      $avgRGB[1] /= $counter;
+      $avgRGB[2] /= $counter;
+    }else{
+       #Simple way of getting the average, without sampling
+      my $index = $im->getPixel(int($x),int($y));
+      if($index >= 1<<24){    
+        # Transparent pixel
+        print " ";
+        next;
+      }
+      ($r,$g,$b) = $im->rgb($im->getPixel(int($x),int($y)));
+      $avgRGB[0] = $r;
+      $avgRGB[1] = $g;
+      $avgRGB[2] = $b;
     }
-    ($r,$g,$b) = $im->rgb($im->getPixel(int($x),int($y)));
-    my $avg = ($r+$b+$g)/3;
+    my $avg = ($avgRGB[0]+$avgRGB[1]+$avgRGB[2])/3;
     # Get the average value and normalize it to 0-1
     my $norm = 20*$avg/255;
     # Decide which color (if any) to print
@@ -84,7 +112,7 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
       );
       foreach my $color (keys %colorList){
         @rgb = @{$colorList{$color}};
-        my $diff = abs($r-$rgb[0]) + abs($g-$rgb[1]) + abs($b-$rgb[2]);
+        my $diff = abs($avgRGB[0]-$rgb[0]) + abs($avgRGB[1]-$rgb[1]) + abs($avgRGB[2]-$rgb[2]);
         if($diff - $threshold < $closestDiff){
           $closestDiff = $diff;
           $closest = $color;
@@ -108,17 +136,6 @@ for(my $y=0; $y <= @size[1]; $y = $y+$resy){
 # The following code does area sampling, generating
 # more detailed images
     
-#my $avg = 0;
-#my $counter = 0;
-#for my $sampley (0 .. $resy){
-#  for my $samplex (0 .. $resx){
-#    my $pixel = $im->getPixel($x + $samplex, $y + $sampley);
-#    ($r,$g,$b) = $im->rgb($pixel);
-#    $avg += 255-($r+$b+$g)/3;
-#    $counter++;
-#  }
-#}
-#$avg = $avg/$counter;
 
 
 __END__
@@ -129,7 +146,7 @@ ascii-tty - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascii-tty [-c] [-r resolution] [-t threshold] [-s vertical stretching] image
+ascii-tty [-c] [-r resolution] [-t threshold] [-s vertical stretching] [-a average] image
 
 =head1 DESCRIPTION
 
@@ -145,10 +162,13 @@ It can also output colored text (8 colors by default)
 
 Enable colored output
 
+=item B<-a>
+
+Enable averaging for the image sampling algorithm. Averaging should produce closer representations of the input image, but will slow down the process.
+
 =item B<-t>
 
-Color sampling threshold, a higher threshold will generate less
-transitions between colors in the images, good for images with gradients.
+Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients.
 
 =item B<-r>
 
@@ -157,9 +177,8 @@ It will default to the current size of the terminal.
 
 =item B<-s>
 
-Vertical stretching factor for the image, or aspect ratio. It defaults
-to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5
-they will compress it.
+Vertical stretching factor for the image, or aspect ratio.
+It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it.
 
 =back
 
