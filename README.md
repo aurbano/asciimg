@@ -46,8 +46,10 @@ Perl modules:
 ```bash
 $ sudo cpan
 cpan> install GD::Image
-# ... installing
 cpan> install Term::ANSIColor
+cpan> install Term::ReadKey
+cpan> install Pod::Usage
+cpan> install Getopt::Long
 ```
 #### Mac OSX
 Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
