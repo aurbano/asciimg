@@ -5,8 +5,19 @@ Command line tool to display images as ascii art on the terminal
 
 ## Usage
 ```sh
-$ ./ascii-ttl path/to/img.png [resolution 0-1] [vertical stretching]
+$ ./ascii-tty [-c] [-r resolution] [-t threshold] [-s vertical stretching] image
 ```
+
+### Options
+
+| Option | Default | Description |
+|---|---|---|
+| **-c** | `false` | Use colored output, enable colors simply by adding the flag. |
+| **-t** | `30` | Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients. |
+| **-r** | `width` |  The resolution is the number of columns used when printing the image. It will default to the current size of the terminal. |
+| **-s** | `0.5` | Vertical stretching factor for the image, or aspect ratio. It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it. |
+
+
 
 ## Installation
 1. [Download](https://github.com/aurbano/ascii-tty/archive/master.zip)/Clone repository
@@ -42,7 +53,7 @@ Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
 Then install `Term::ANSIColor` the same way as Linux.
 
 ## Roadmap
-* Add an option to get colored output
+* <del>Add an option to get colored output</del>
 * Add option to use full square characters/custom characters
 * Package for distribution
 * brew installer?
