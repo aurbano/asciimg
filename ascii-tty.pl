@@ -19,16 +19,18 @@ my $invert = 0;
 my $average = 0;
 my $help = 0;
 my $man = 0;
+my $spaces = 0;
 
 GetOptions (
-  "color" => \$color,
-  "invert" => \$invert,
-  "resolution=f" => \$resolution,
-  "vstretch=f" => \$vstretch,
-  "threshold=f" => \$threshold,
-  "average" => \$average,
-  "help|?" => \$help,
-  "man" => \$man
+  "color"         => \$color,
+  "spaces"        => \$spaces,
+  "invert"        => \$invert,
+  "resolution=f"  => \$resolution,
+  "vstretch=f"    => \$vstretch,
+  "threshold=f"   => \$threshold,
+  "average"       => \$average,
+  "help|?"        => \$help,
+  "man"           => \$man
 ) or pod2usage(2);
 
 pod2usage(1) if $help;
@@ -45,7 +47,6 @@ while($imgsrc = shift){
 
 # Help message if no image was specified
 unless(@images){
-  print "fallback to stdin\n";
   $filenames = <STDIN>;
   # Split sources by whitespace
   @images = split /\s+/, $filenames;
@@ -119,6 +120,8 @@ sub printImage(){
       # Decide which color (if any) to print
       if($color > 0 && $invert < 1){
         print color 'on_black';
+      }elsif($color > 0 && $invert > 0){
+        print color 'black';
       }
       if($color > 0){
         my $closest = "white";
@@ -148,12 +151,16 @@ sub printImage(){
           print color $closest;
         }
       }
-      if($color > 0 && $norm > 10){
-        print color 'bold';
-        print @chars[int($norm/2)];
-        print color 'reset';
+      if($spaces < 1){
+        if($color > 0 && $norm > 10){
+          print color 'bold';
+          print @chars[int($norm/2)];
+          print color 'reset';
+        }else{
+          print @chars[int($norm/2)];
+        }
       }else{
-        print @chars[int($norm/2)];
+        print " ";
       }
       if($color > 0){
         print color 'reset';
@@ -171,7 +178,7 @@ ascii-tty - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
+ascii-tty [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-v vertical stretching] [image]...
 
 =head1 DESCRIPTION
 
@@ -202,13 +209,17 @@ Print all jpg files in color, with the background inverted (print on white).
 
 =over 8
 
+=item B<-s>
+
+Use only spaces when rendering. Depending on whether you have setup B<-c> and B<-i> this will have different possible outputs, it is probably worth testing.
+
 =item B<-i>
 
 Set the color in the background instead of the foreground, good for images that have a white background or bright colors.
 
 =item B<-c>
 
-Enable colored output
+Enable colored output.
 
 =item B<-a>
 
@@ -223,10 +234,14 @@ Color sampling threshold, a higher threshold will generate less transitions betw
 The resolution is the number of columns used when printing the image.
 It will default to the current size of the terminal.
 
-=item B<-s>
+=item B<-v>
 
 Vertical stretching factor for the image, or aspect ratio.
 It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it.
+
+=item B<-m>
+
+Display the man page.
 
 =back
 
