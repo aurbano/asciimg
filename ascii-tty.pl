@@ -34,113 +34,133 @@ GetOptions (
 pod2usage(1) if $help;
 pod2usage(-exitval => 0, -verbose => 2) if $man;
 
-my $im;
-$imgsrc = shift;
+# Activate true color
+GD::Image->trueColor(1);
 
-# Help message if no image was specified
-if(!$imgsrc){
-  pod2usage(1);
+my $im;
+my @images;
+while($imgsrc = shift){
+  push @images, $imgsrc;
 }
 
-GD::Image->trueColor(1);
-$im = GD::Image->new($imgsrc)
-  or die "ascii-ttl.pl: can't find '",$imgsrc,"'\n";
+# Help message if no image was specified
+unless(@images){
+  print "fallback to stdin\n";
+  $filenames = <STDIN>;
+  # Split sources by whitespace
+  @images = split /\s+/, $filenames;
+}
 
-# Get image size
-my @size = $im->getBounds();
+# loop and print
+foreach my $image(@images){
+  printImage($image);
+}
 
-# Scanning resolution
-my $resx = @size[0]/$resolution;
-my $resy = $resx/$vstretch;
+# print image subroutine, first parameter is the image src
+sub printImage(){
+  my $imgsrc = $_[0];
 
-# Filling chars
-my @chars =  (" ", ".", ":", "~", "+", "|", "f", "#", "X", "W", "W");
+  print $imgsrc;
 
-# Build array of average values
-for(my $y=0; $y <= @size[1]; $y = $y+$resy){
-  for(my $x=0; $x <= @size[0]; $x = $x+$resx){
-    my @avgRGB = (0,0,0);
-    if($average > 0){
-      # sample area averaging enabled
-      my $counter = 0;
-      for my $sampley (0 .. $resy){
-        for my $samplex (0 .. $resx){
-          my $pixel = $im->getPixel($x + $samplex, $y + $sampley);
-          if($pixel >= 1<<24){
+  $im = GD::Image->new($imgsrc)
+    or die "ascii-ttl.pl: can't find '",$imgsrc,"'\n";
+
+  # Get image size
+  my @size = $im->getBounds();
+
+  # Scanning resolution
+  my $resx = @size[0]/$resolution;
+  my $resy = $resx/$vstretch;
+
+  # Filling chars
+  my @chars =  (" ", ".", ":", "~", "+", "|", "f", "#", "X", "W", "W");
+
+  # Build array of average values
+  for(my $y=0; $y <= @size[1]; $y = $y+$resy){
+    for(my $x=0; $x <= @size[0]; $x = $x+$resx){
+      my @avgRGB = (0,0,0);
+      if($average > 0){
+        # sample area averaging enabled
+        my $counter = 0;
+        for my $sampley (0 .. $resy){
+          for my $samplex (0 .. $resx){
+            my $pixel = $im->getPixel($x + $samplex, $y + $sampley);
+            if($pixel >= 1<<24){
+              $counter++;
+              next;
+            }
+            ($r,$g,$b) = $im->rgb($pixel);
+            $avgRGB[0] += $r;
+            $avgRGB[1] += $g;
+            $avgRGB[2] += $b;
             $counter++;
-            next;
           }
-          ($r,$g,$b) = $im->rgb($pixel);
-          $avgRGB[0] += $r;
-          $avgRGB[1] += $g;
-          $avgRGB[2] += $b;
-          $counter++;
         }
-      }
-      $avgRGB[0] /= $counter;
-      $avgRGB[1] /= $counter;
-      $avgRGB[2] /= $counter;
-    }else{
-      #Simple way of getting the average, without sampling
-      my $index = $im->getPixel(int($x),int($y));
-      if($index >= 1<<24){    
-        # Transparent pixel
-        print " ";
-        next;
-      }
-      ($r,$g,$b) = $im->rgb($im->getPixel(int($x),int($y)));
-      $avgRGB[0] = $r;
-      $avgRGB[1] = $g;
-      $avgRGB[2] = $b;
-    }
-    my $avg = ($avgRGB[0]+$avgRGB[1]+$avgRGB[2])/3;
-    if($invert){
-      $avg = 255 - $avg;
-    }
-    # Get the average value and normalize it to 0-1
-    my $norm = 20*$avg/255;
-    # Decide which color (if any) to print
-    unless($invert){
-      print color 'on_black';
-    }
-    if($color > 0){
-      my $closest = "white";
-      my $closestDiff = 255*3 + $threshold;
-      my %colorList = (
-         #color => (r,g,b)
-        "black" => [0,0,0],
-        "white" => [255,255,255],
-        "red" => [255,0,0],
-        "green" => [0,255,0],
-        "yellow" => [255,255,0],
-        "blue" => [0,0,255],
-        "magenta" => [255,0,255],
-        "cyan" => [0,255,255],
-      );
-      foreach my $color (keys %colorList){
-        @rgb = @{$colorList{$color}};
-        my $diff = abs($avgRGB[0]-$rgb[0]) + abs($avgRGB[1]-$rgb[1]) + abs($avgRGB[2]-$rgb[2]);
-        if($diff - $threshold < $closestDiff){
-          $closestDiff = $diff;
-          $closest = $color;
-        }
-      }
-      if($invert){
-        print color "on_".$closest;
+        $avgRGB[0] /= $counter;
+        $avgRGB[1] /= $counter;
+        $avgRGB[2] /= $counter;
       }else{
-        print color $closest;
+        #Simple way of getting the average, without sampling
+        my $index = $im->getPixel(int($x),int($y));
+        if($index >= 1<<24){    
+          # Transparent pixel
+          print " ";
+          next;
+        }
+        ($r,$g,$b) = $im->rgb($im->getPixel(int($x),int($y)));
+        $avgRGB[0] = $r;
+        $avgRGB[1] = $g;
+        $avgRGB[2] = $b;
       }
-    }
-    if($norm > 10){
-      print color 'bold';
-      print @chars[int($norm/2)];
+      my $avg = ($avgRGB[0]+$avgRGB[1]+$avgRGB[2])/3;
+      if($invert){
+        $avg = 255 - $avg;
+      }
+      # Get the average value and normalize it to 0-1
+      my $norm = 20*$avg/255;
+      # Decide which color (if any) to print
+      unless($invert){
+        print color 'on_black';
+      }
+      if($color > 0){
+        my $closest = "white";
+        my $closestDiff = 255*3 + $threshold;
+        my %colorList = (
+          #color => (r,g,b)
+          "black" => [0,0,0],
+          "white" => [255,255,255],
+          "red" => [255,0,0],
+          "green" => [0,255,0],
+          "yellow" => [255,255,0],
+          "blue" => [0,0,255],
+          "magenta" => [255,0,255],
+          "cyan" => [0,255,255],
+        );
+        foreach my $color (keys %colorList){
+          @rgb = @{$colorList{$color}};
+          my $diff = abs($avgRGB[0]-$rgb[0]) + abs($avgRGB[1]-$rgb[1]) + abs($avgRGB[2]-$rgb[2]);
+          if($diff - $threshold < $closestDiff){
+            $closestDiff = $diff;
+            $closest = $color;
+          }
+        }
+        if($invert){
+          print color "on_".$closest;
+        }else{
+          print color $closest;
+        }
+      }
+      if($norm > 10){
+        print color 'bold';
+        print @chars[int($norm/2)];
+        print color 'reset';
+      }else{
+        print @chars[int($norm/2)];
+      }
       print color 'reset';
-    }else{
-      print @chars[int($norm/2)];
     }
-    print color 'reset';
+    print "\n";
   }
-  print "\n";
 }
 
 __END__
@@ -151,13 +171,32 @@ ascii-tty - Print images on the terminal using ascii art
 
 =head1 SYNOPSIS
 
-ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] image
+ascii-tty [-c] [-i] [-a] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
 
 =head1 DESCRIPTION
 
-B<ascii-tty> takes any image filename as an input and will output text
-via stdout that looks similar to the image.
+B<ascii-tty> takes any image filename(s) as an input and will output text via stdout that looks similar to the image.
 It can also output colored text (8 colors by default)
+
+If no filenames are given it will take the filenames from stdout.
+
+=head1 EXAMPLES
+
+=over 8
+
+=item ascii-tty -c image1.png
+
+This will print image1.png in color.
+
+=item ascii-tty -c image1.png *.jpg
+
+This will print image1.png and all jpg files in color.
+
+=item echo *.jpg | ascii-tty -c -i
+
+Print all jpg files in color, with the background inverted (print on white).
+
+=back
 
 =head1 OPTIONS
 
