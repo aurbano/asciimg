@@ -64,7 +64,7 @@ cpan> install Getopt::Long
 ```
 #### Mac OSX
 Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
-Then install `Term::ANSIColor` the same way as Linux.
+Then install the other dependencies the same way as Linux.
 
 ## Roadmap
 * <del>Add an option to get colored output</del>
