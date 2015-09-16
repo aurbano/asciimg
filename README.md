@@ -11,6 +11,7 @@ $ ./ascii-ttl path/to/img.png [resolution 0-1] [vertical stretching]
 1. [Download](https://github.com/aurbano/ascii-tty/archive/master.zip)/Clone repository
 2. `ascii-tty` is built with Perl at the moment, so you'll need to [install it](http://learn.perl.org/installing/) if your OS doesn't have it already.
 3. Dependencies:
+
 GD Library
 ```bash
 # Mac OSX
@@ -26,7 +27,7 @@ Configure cpan if necessary:
 ```bash
 $ sudo perl -MCPAN -e shell
 ```
-Install dependencies:
+Perl modules:
 
 #### Linux
 ```bash
