@@ -1,6 +1,7 @@
 # ascii-tty
 Command line tool to display images as ascii art on the terminal
 
+![Example](https://raw.githubusercontent.com/aurbano/ascii-tty/master/demos/demo.gif)
 
 ## Usage
 ```sh
