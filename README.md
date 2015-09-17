@@ -63,6 +63,10 @@ $ sudo perl -MCPAN -e shell
 ```
 Perl modules:
 
+#### Mac OSX
+Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
+Then install the other dependencies the same way as Linux.
+
 #### Linux
 ```bash
 $ sudo cpan
@@ -72,9 +76,6 @@ cpan> install Term::ReadKey
 cpan> install Pod::Usage
 cpan> install Getopt::Long
 ```
-#### Mac OSX
-Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
-Then install the other dependencies the same way as Linux.
 
 ## Roadmap
 * <del>Add an option to get colored output</del>
