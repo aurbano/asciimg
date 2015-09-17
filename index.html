@@ -19,8 +19,15 @@
     </section>
 
     <section class="main-content">
-      <h1>
-<a id="asciimg" class="anchor" href="#asciimg" aria-hidden="true"><span class="octicon octicon-link"></span></a>asciimg</h1>
+      <pre><code>                 _ _                 
+                (_|_)                
+   __ _ ___  ___ _ _ _ __ ___   __ _ 
+  / _` / __|/ __| | | '_ ` _ \ / _` |
+ | (_| \__ \ (__| | | | | | | | (_| |
+  \__,_|___/\___|_|_|_| |_| |_|\__, |
+                                __/ |
+                               |___/ 
+</code></pre>
 
 <blockquote>
 <p>/as-keem-ɪdʒ/ or "askimage"</p>
@@ -34,6 +41,14 @@
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <div class="highlight highlight-source-shell"><pre>$ ./asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...</pre></div>
+
+<p>Tested in:</p>
+
+<ul>
+<li>Mac OSX</li>
+<li>Red Hat/Fedora</li>
+<li>Debian Wheezy (ARM)</li>
+</ul>
 
 <h3>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h3>
@@ -127,6 +142,13 @@ $ sudo yum -y install perl-GD</pre></div>
 <p>Perl modules:</p>
 
 <h4>
+<a id="mac-osx" class="anchor" href="#mac-osx" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mac OSX</h4>
+
+<p>Patch GD from here: <a href="http://wangqinhu.com/install-gd-on-mavericks/">http://wangqinhu.com/install-gd-on-mavericks/</a> <em>(this fixed all GD issues for me)</em></p>
+
+<p>Then install the other dependencies the same way as Linux.</p>
+
+<h4>
 <a id="linux" class="anchor" href="#linux" aria-hidden="true"><span class="octicon octicon-link"></span></a>Linux</h4>
 
 <div class="highlight highlight-source-shell"><pre>$ sudo cpan
@@ -135,12 +157,6 @@ cpan<span class="pl-k">&gt;</span> install Term::ANSIColor
 cpan<span class="pl-k">&gt;</span> install Term::ReadKey
 cpan<span class="pl-k">&gt;</span> install Pod::Usage
 cpan<span class="pl-k">&gt;</span> install Getopt::Long</pre></div>
-
-<h4>
-<a id="mac-osx" class="anchor" href="#mac-osx" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mac OSX</h4>
-
-<p>Install GD from here: <a href="http://wangqinhu.com/install-gd-on-mavericks/">http://wangqinhu.com/install-gd-on-mavericks/</a>
-Then install the other dependencies the same way as Linux.</p>
 
 <h2>
 <a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h2>
