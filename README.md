@@ -64,7 +64,8 @@ $ sudo perl -MCPAN -e shell
 Perl modules:
 
 #### Mac OSX
-Install GD from here: http://wangqinhu.com/install-gd-on-mavericks/
+Patch GD from here: http://wangqinhu.com/install-gd-on-mavericks/ *(this fixed all GD issues for me)*
+
 Then install the other dependencies the same way as Linux.
 
 #### Linux
