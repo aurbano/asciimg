@@ -1,4 +1,13 @@
-# asciimg
+```
+                 _ _                 
+                (_|_)                
+   __ _ ___  ___ _ _ _ __ ___   __ _ 
+  / _` / __|/ __| | | '_ ` _ \ / _` |
+ | (_| \__ \ (__| | | | | | | | (_| |
+  \__,_|___/\___|_|_|_| |_| |_|\__, |
+                                __/ |
+                               |___/ 
+```
 > /as-keem-ɪdʒ/ or "askimage"
 >
 > Command line tool to display images as ascii art on the terminal
