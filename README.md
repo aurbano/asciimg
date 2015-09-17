@@ -18,6 +18,10 @@
 ```bash
 $ ./asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stretching] [image]...
 ```
+Tested in:
+* Mac OSX
+* Red Hat/Fedora
+* Debian Wheezy (ARM)
 
 ### Examples
 
