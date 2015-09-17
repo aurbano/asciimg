@@ -29,6 +29,7 @@ $ echo demos/* | asciimg # print all files in the demos folder in black and whit
 | **-t** | `30` | Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients. |
 | **-r** | `width` |  The resolution is the number of columns used when printing the image. It will default to the current size of the terminal. |
 | **-s** | `0.5` | Vertical stretching factor for the image, or aspect ratio. It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it. |
+| **-m** | - | Display the man page for `asciimg` |
 
 
 ## Installation
@@ -74,6 +75,4 @@ Then install the other dependencies the same way as Linux.
 * Rewrite in an easier language (nodejs?)
 
 ## Meta
-Developed by [Alejandro U. Alvarez](http://urbanoalvarez.es) - &copy; 2015
-
-Licensed under the MIT License
+Developed by [Alejandro U. Alvarez](http://urbanoalvarez.es) - &copy; 2015 - Licensed under the MIT License
