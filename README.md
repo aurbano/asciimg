@@ -33,16 +33,38 @@ $ echo demos/* | asciimg # print all files in the demos folder in black and whit
 
 ### Options
 
-| Option | Default | Description |
-|---|---|---|
-| **-s** | `false` |  Render image using only the space character, depending on **-c** and **-i** this will produce different results. Worth testing. |
-| **-i** | `false` |  Set the color in the background instead of the foreground, good for images that have a white background or bright colors. |
-| **-a** | `false` |  Enable averaging for the image sampling algorithm. Averaging should produce closer representations of the input image, but will slow down the process. |
-| **-c** | `false` | Use colored output, enable colors simply by adding the flag. |
-| **-t** | `30` | Color sampling threshold, a higher threshold will generate less transitions between colors in the images, good for images with gradients. |
-| **-r** | `width` |  The resolution is the number of columns used when printing the image. It will default to the current size of the terminal. |
-| **-s** | `0.5` | Vertical stretching factor for the image, or aspect ratio. It defaults to 0.5, numbers over 0.5 will stretch the image vertically, under 0.5 they will compress it. |
-| **-m** | - | Display the man page for `asciimg` |
+```
+$ asciimg -h
+Usage:
+    asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-v vertical stretching] [image]...
+
+Options:
+    -s      Use only spaces when rendering. Depending on whether you have
+            setup -c and -i this will have different possible outputs, it is
+            probably worth testing.
+
+    -i      Set the color in the background instead of the foreground, good
+            for images that have a white background or bright colors.
+
+    -c      Enable colored output.
+
+    -a      Enable averaging for the image sampling algorithm. Averaging
+            should produce closer representations of the input image, but
+            will slow down the process.
+
+    -t      Color sampling threshold, a higher threshold will generate less
+            transitions between colors in the images, good for images with
+            gradients.
+
+    -r      The resolution is the number of columns used when printing the
+            image. It will default to the current size of the terminal.
+
+    -v      Vertical stretching factor for the image, or aspect ratio. It
+            defaults to 0.5, numbers over 0.5 will stretch the image
+            vertically, under 0.5 they will compress it.
+
+    -m      Display the man page.
+```
 
 
 ## Installation
