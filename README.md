@@ -20,7 +20,7 @@ $ ./asciimg [-c] [-i] [-a] [-s] [-r resolution] [-t threshold] [-s vertical stre
 ```
 Tested in:
 * Mac OSX
-* Red Hat/Fedora
+* Red Hat/Fedora/CentOS
 * Debian Wheezy (ARM)
 
 ### Examples
