@@ -107,9 +107,7 @@ cpan> install Getopt::Long
 ## Roadmap
 * <del>Add an option to get colored output</del>
 * Add option to use full square characters/custom characters
-* Package for distribution
-* brew installer?
-* Rewrite in an easier language (nodejs?)
+* Package for distribution (working on it)
 
 ## Meta
 Developed by [Alejandro U. Alvarez](http://urbanoalvarez.es) - &copy; 2015 - Licensed under the MIT License
