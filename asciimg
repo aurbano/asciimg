@@ -1,5 +1,11 @@
 #! /usr/bin/env perl 
 
+#
+# @license asciimg
+# (c) 2012015 Alejandro U. Alvarez, http://urbanoalvarez.es
+# License: MIT
+#
+
 use GD::Image;
 use Term::ANSIColor;
 use Pod::Usage;
@@ -41,23 +47,24 @@ GD::Image->trueColor(1);
 
 my $im;
 my @images;
+# Load image from ARGV
 while($imgsrc = shift){
   push @images, $imgsrc;
 }
 
-# Help message if no image was specified
+# If no images were passed in ARGV, take from STDIN
 unless(@images){
   $filenames = <STDIN>;
   # Split sources by whitespace
   @images = split /\s+/, $filenames;
 }
 
-# loop and print
+# Loop and print each image
 foreach my $image(@images){
   printImage($image);
 }
 
-# print image subroutine, first parameter is the image src
+# Print image subroutine, first parameter is the image src
 sub printImage(){
   my $imgsrc = $_[0];
 
@@ -78,8 +85,9 @@ sub printImage(){
   for(my $y=0; $y <= @size[1]; $y = $y+$resy){
     for(my $x=0; $x <= @size[0]; $x = $x+$resx){
       my @avgRGB = (0,0,0);
+      # Algorithm selection (average or simple)
       if($average > 0){
-        # sample area averaging enabled
+        # Averaging sampling algorithm enabled
         my $counter = 0;
         for my $sampley (0 .. $resy){
           for my $samplex (0 .. $resx){
@@ -99,7 +107,7 @@ sub printImage(){
         $avgRGB[1] /= $counter;
         $avgRGB[2] /= $counter;
       }else{
-        #Simple way of getting the average, without sampling
+        # Simple algorithm (default)
         my $index = $im->getPixel(int($x),int($y));
         if($index >= 1<<24){    
           # Transparent pixel
@@ -111,11 +119,14 @@ sub printImage(){
         $avgRGB[1] = $g;
         $avgRGB[2] = $b;
       }
+      # At this point @avgRGB contains the rgb for the sample area.
       my $avg = ($avgRGB[0]+$avgRGB[1]+$avgRGB[2])/3;
       if($invert){
         $avg = 255 - $avg;
       }
-      # Get the average value and normalize it to 0-1
+      # Get the average value and normalize it to 0-20
+      # I use 20 because even though there are 10 chars,
+      # we can use bold to simulate 10 more chars.
       my $norm = 20*$avg/255;
       # Decide which color (if any) to print
       if($color > 0 && $invert < 1){
